@@ -70,13 +70,15 @@ A correlation matrix is generated to show relationships between sensor variables
 
 ✅ This helps to identify which variables might be redundant or informative for anomaly detection.
 
----
+![Sensor_Anomaly_Detection](App_Screenshot/heatmap_corr.png)
 
 ### 🔹 Status Distribution Over Time
 
 The app also provides a bar chart showing how often the machine was in each status, helping users understand the operational context of the sensor data.
 
----
+![Sensor_Anomaly_Detection](App_Screenshot/chart_oil_temp.png)
+![Sensor_Anomaly_Detection](App_Screenshot/chart_oil_preassure_vs_m_speed.png)
+![Sensor_Anomaly_Detection](App_Screenshot/chart_oil_preassure_vs_RPM.png)
 
 ## ▶️ How to Run the App
 
