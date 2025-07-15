@@ -5,6 +5,8 @@ import numpy as np
 import plotly.graph_objects as go
 from datetime import datetime, date
 import matplotlib.pyplot as plt
+import seaborn as sns
+import altair as alt
 
 # emojis: https://www.webfx.com/tools/emoji-cheat-sheet/
 st.set_page_config(page_title="Sensor Data Analysis", page_icon=":wrench:", layout="wide")
@@ -18,7 +20,7 @@ This app performs simple sensor anomaly detection!
 """)
 
 # ---- READ EXCEL ----
-# @st.cache(allow_output_mutation=True)
+@st.cache(allow_output_mutation=True)
 def get_data_from_csv():
     df = pd.read_csv(
         "MaintenanceReport.csv",  # Path to the CSV file
@@ -40,7 +42,7 @@ maintenance_counts= df['Prob. code text'].value_counts()
 
 fig_maintenance_stat = px.bar(y=maintenance_counts.values,
              x=maintenance_counts.index,
-             color = maintenance_counts.index,
+             #color = maintenance_counts.index,
              color_discrete_sequence=px.colors.sequential.OrRd,
              text=maintenance_counts.values,
              title="<b>Maintenances Types in the Sample</b>")
@@ -185,27 +187,31 @@ st.subheader("Relationship")
 # Keep only numeric columns
 df_numeric = df_pivot.select_dtypes(include=['number'])
 
+st.write("Liczba kolumn w df_numeric:", df_numeric.shape[1])
+st.write("Kolumny:", df_numeric.columns.tolist())
+
 # Calculate the correlation matrix
 corr_matrix = df_numeric.corr()
 
-# Create a Plotly heatmap for the correlation matrix
-fig = px.imshow(corr_matrix,
-                labels=dict(x="Variables", y="Variables", color="Correlation"),
-                x=corr_matrix.columns,  # List of all your 40 variable names in columns
-                y=corr_matrix.columns,  # List of all your 40 variable names in rows
-                color_continuous_scale='RdBu_r',
-                zmin=-1, zmax=1)
+corr_values = corr_matrix.values
+var_names = corr_matrix.columns.tolist()
 
-# Customize layout to fit large number of variables
-fig.update_layout(
-    title='Correlation Matrix Heatmap',
-    xaxis_tickangle=-45,  # Tilt x-axis labels for better readability
-    height=1000,  # Increase the figure height to accommodate all variables
-    width=1000,  # Increase the width if necessary
+# Display the df in Streamlit
+st.dataframe(corr_matrix)
+
+# Create seaborn heatmap for the correlation matrix
+fig_corr, ax = plt.subplots(figsize=(7, 5))
+sns.heatmap(
+    corr_matrix,
+    annot=True,
+    fmt=".2f",
+    cmap='coolwarm',
+    annot_kws={'size': 8},
+    ax=ax
 )
 
 # Display the heatmap in Streamlit
-st.plotly_chart(fig)
+st.pyplot(fig_corr)
 
 st.markdown("""
 Main Key points:
@@ -267,30 +273,27 @@ filtered_df_op=filtered_df_op[filtered_df_op['Idle']!=1.0]
 col1, col2 = st.columns(2)
 
 # Create scatter plot
-if not filtered_df_op.empty:  # Check if the DataFrame is not empty
+if not filtered_df_op.empty:
+    filtered_df_op = filtered_df_op.dropna(subset=['Engine_Oil_Pressure'])
+    filtered_df_op['Engine_Oil_Pressure'] = pd.to_numeric(filtered_df_op['Engine_Oil_Pressure'], errors='coerce')
+
     with col1:
-        fig = px.scatter(
-            filtered_df_op,
-            x='TimeStamp',
-            y='Engine_Oil_Temperature',
-            color='Engine_Oil_Pressure',
-            title='Scatter Plot - Engine Oil Temperature',
-            labels={
-                'TimeStamp': "Date & Time",  # Correct the key to the x-axis label
-                'Engine_Oil_Temperature': "Engine Oil Temperature",
-                'Engine_Oil_Pressure': "Engine Oil Pressure"
-            }
-        )
-
-        fig.update_layout(
-            title='Scatter Plot - Engine Oil Temperature',
-            xaxis_tickangle=-45,
-            height=600,
+        chart = alt.Chart(filtered_df_op).mark_circle(size=60).encode(
+            x='TimeStamp:T',
+            y='Engine_Oil_Temperature:Q',
+            color=alt.Color(
+                'Engine_Oil_Pressure:Q',
+                scale=alt.Scale(scheme='yelloworangered'),
+                legend=alt.Legend(title="Engine Oil Pressure")
+            ),
+            tooltip=['TimeStamp', 'Engine_Oil_Temperature', 'Engine_Oil_Pressure']
+        ).properties(
             width=700,
-        )
+            height=500,
+            title='Engine Oil Temperature vs Time'
+        ).interactive()
 
-        # Display the scatter plot in the first column
-        st.plotly_chart(fig)
+        st.altair_chart(chart, use_container_width=True)
     with col2:
         st.subheader("Trends and Anomalies in Engine Oil Temperature and Pressure")
         st.markdown(""" 
