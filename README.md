@@ -62,7 +62,7 @@ Users can select a sensor variable and analyze its distribution across different
 
 Boxplots allow users to detect outliers in the sensor data. You can filter by machine status and time period to narrow down the conditions under which anomalies appear.
 
----
+![Sensor_Anomaly_Detection](App_Screenshot/BoxPlot.png)
 
 ### 🔹 Correlation Heatmap
 
