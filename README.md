@@ -48,7 +48,7 @@ This helps maintenance teams focus on the most severe breakdowns.
 
 **Focus Periods**: We will concentrate on September and October due to the emergence of breakdowns during these months.
 
-![Sensor_Anomaly_Detection](App_Screenshot/chart_oil_temp.png)
+![Sensor_Anomaly_Detection](App_Screenshot/MaintenanceReport.png)
 
 ### 🔹 Sensor Variable Distribution
 
@@ -103,14 +103,14 @@ Main Key points (October):
 - Irregular shapes in the sensor data suggest potential anomalies.
 - These discrepancies require further investigation to rule out underlying issues affecting engine performance.
 
-![Sensor_Anomaly_Detection](App_Screenshot/chart_oil_temp.png)
+![Sensor_Anomaly_Detection](App_Screenshot/chart_oil_temp_Oct.png)
 
 Main Key points:
 
 - **Inconsistent Pressure Readings**: Inconsistent oil pressure can signal problems with the brake cooler pump, which may lead to overheating and compromised braking performance.
 - **Pressure Spikes**: Sudden spikes in oil pressure at varying RPMs may reflect abnormal load conditions, stressing both the transmission and cooling systems.
 
-![Sensor_Anomaly_Detection](App_Screenshot/chart_oil_preassure_vs_RPM.png)
+![Sensor_Anomaly_Detection](App_Screenshot/chart_oil_preassure_vs_RPM_Oct.png)
 
 ## ▶️ How to Run the App
 
