@@ -40,15 +40,15 @@ The app starts by displaying a bar chart of the most frequent maintenance types,
 
 The dataset is filtered to focus only on **unplanned** and **critical** failures, as they are the most relevant for anomaly detection.
 
----
-
 ### 🔹 Longest Downtime Events
 
 The application highlights the machines with the longest downtime periods. The data is shown in both a table and a horizontal bar chart.
 
 This helps maintenance teams focus on the most severe breakdowns.
 
----
+**Focus Periods**: We will concentrate on September and October due to the emergence of breakdowns during these months.
+
+![Sensor_Anomaly_Detection](App_Screenshot/chart_oil_temp.png)
 
 ### 🔹 Sensor Variable Distribution
 
@@ -72,12 +72,44 @@ A correlation matrix is generated to show relationships between sensor variables
 
 ![Sensor_Anomaly_Detection](App_Screenshot/heatmap_corr.png)
 
-### 🔹 Status Distribution Over Time
+### 🔹 Trends and Anomalies in Engine Oil Temperature and Pressure
+Main Key points (September):
 
-The app also provides a bar chart showing how often the machine was in each status, helping users understand the operational context of the sensor data.
+- The graph shows clear, regular patterns of increase and decrease in engine oil temperature and pressure, indicating normal operation.
+- Irregular shapes in the sensor data suggest potential anomalies.
+- These discrepancies require further investigation to rule out underlying issues affecting engine performance.
 
 ![Sensor_Anomaly_Detection](App_Screenshot/chart_oil_temp.png)
+
+Main Key points:
+
+- **Cluster at zero machine speed**: This may indicate sensor malfunctions during the leak, as the machine wasn't idle.
+- **Scattered points at low speeds and pressures**: Could reflect inconsistencies or erratic readings during the leak.
+- **Outliers at higher pressures**: These may represent pressure fluctuations due to the leakage.
+
 ![Sensor_Anomaly_Detection](App_Screenshot/chart_oil_preassure_vs_m_speed.png)
+
+Main Key points:
+
+- **Low RPM with low pressure**: Indicates potential pressure drops caused by the leak.
+- **Moderate RPM with high pressure**: Suggests system overcompensation to maintain pressure during the leak.
+- **Variability in pressure**: Likely due to pressure instability caused by the leak.
+
+![Sensor_Anomaly_Detection](App_Screenshot/chart_oil_preassure_vs_RPM.png)
+
+Main Key points (October):
+
+- The graph shows clear, regular patterns of increase and decrease in engine oil temperature and pressure, indicating normal operation.
+- Irregular shapes in the sensor data suggest potential anomalies.
+- These discrepancies require further investigation to rule out underlying issues affecting engine performance.
+
+![Sensor_Anomaly_Detection](App_Screenshot/chart_oil_temp.png)
+
+Main Key points:
+
+- **Inconsistent Pressure Readings**: Inconsistent oil pressure can signal problems with the brake cooler pump, which may lead to overheating and compromised braking performance.
+- **Pressure Spikes**: Sudden spikes in oil pressure at varying RPMs may reflect abnormal load conditions, stressing both the transmission and cooling systems.
+
 ![Sensor_Anomaly_Detection](App_Screenshot/chart_oil_preassure_vs_RPM.png)
 
 ## ▶️ How to Run the App
